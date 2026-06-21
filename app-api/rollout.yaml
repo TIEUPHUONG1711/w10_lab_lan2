@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: api
-        image:  ghcr.io/tieuphuong1711/w10-lab-lan2-api:v1
+        image: ghcr.io/tieuphuong1711/w10-lab-lan2-api:v1
         imagePullPolicy: IfNotPresent
 
         ports:
