@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: demo #ns để chạy api(rollout api, service api, servicemonitor, analysistemplate)
+
+#   LAB 20 — Hiểu Sync Wave
+# File liên quan
+# argocd/apps/*.yaml
+# Ý nghĩa
+
+# Repo dùng sync wave để deploy đúng thứ tự.
+
+# README ghi thứ tự:
+
+# Wave -1: app-common
+# Wave 0: k8s-prometheus, k8s-rollout
+# Wave 1: app-analysis, app-alert
+# Wave 2: app-api
+
+# Tại sao?
+
+# namespace phải có trước
+# CRD phải có trước
+# AnalysisTemplate và PrometheusRule phải có trước
+# API rollout chạy sau cùng
+
+# Nếu sai thứ tự, app có thể sync fail.

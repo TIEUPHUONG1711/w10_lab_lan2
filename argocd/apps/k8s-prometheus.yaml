@@ -8,6 +8,14 @@
 # app-analysis/analysis-template.yaml
 # → query Prometheus không có nơi để query
 
+# CRD = dạy Kubernetes hiểu loại YAML mới
+
+# Prometheus Operator
+# → dạy Kubernetes hiểu ServiceMonitor, PrometheusRule
+
+# Argo Rollouts
+# → dạy Kubernetes hiểu Rollout, AnalysisTemplate
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
