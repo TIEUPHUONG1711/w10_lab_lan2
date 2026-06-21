@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: common
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/TIEUPHUONG1711/w10_lab_lan2.git
+    targetRevision: main
+    path: app-common
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo
+
+  syncPolicy:
+    automated:
+      prune: true #Nếu xóa file khỏi Git, ArgoCD xóa resource khỏi cluster.
+      selfHeal: true #Nếu ai sửa tay trong cluster, ArgoCD tự sửa lại theo Git.
+    syncOptions:
+    - CreateNamespace=true
