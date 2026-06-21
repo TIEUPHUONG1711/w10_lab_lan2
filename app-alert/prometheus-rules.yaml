@@ -1,0 +1,26 @@
+apiVersion: monitoring.coreos.com/v1
+#dùng khi app đã chạy bình thường rồi, muốn thêm alert vào để theo dõi 
+kind: PrometheusRule
+metadata:
+  name: api-slo-rules
+  namespace: demo
+  labels:
+    release: kube-prometheus-stack
+spec:
+  groups:
+  - name: api.slo.rules
+    rules:
+    - record: api:success_rate:5m
+      expr: |
+        sum(rate(flask_http_request_total{status!~"5.."}[5m]))
+        /
+        sum(rate(flask_http_request_total[5m]))
+
+    - alert: ApiSuccessRateLow
+      expr: api:success_rate:5m < 0.95
+      for: 2m
+      labels:
+        severity: warning
+      annotations:
+        summary: "API success rate is below 95%"
+        description: "API success rate has been below 95% for more than 2 minutes."
