@@ -17,6 +17,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set lowercase owner
+        run: |
+          echo "OWNER_LC=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
       - name: Login GHCR
         uses: docker/login-action@v3
         with:
@@ -27,23 +31,24 @@ jobs:
       - name: Build Image
         run: |
           docker build \
-            -t ghcr.io/${{ github.repository_owner }}/w10-api:${{ github.sha }} \
-            -t ghcr.io/${{ github.repository_owner }}/w10-api:v1 \
+            -t ghcr.io/${{ env.OWNER_LC }}/w10-api:${{ github.sha }} \
+            -t ghcr.io/${{ env.OWNER_LC }}/w10-api:v1 \
             ./src/api
 
       - name: Push Image
         run: |
-          docker push ghcr.io/${{ github.repository_owner }}/w10-api:${{ github.sha }}
-          docker push ghcr.io/${{ github.repository_owner }}/w10-api:v1
+          docker push ghcr.io/${{ env.OWNER_LC }}/w10-api:${{ github.sha }}
+          docker push ghcr.io/${{ env.OWNER_LC }}/w10-api:v1
 
       - name: Update Rollout Image
         run: |
-          sed -i "s|image: .*|image: ghcr.io/${{ github.repository_owner }}/w10-api:v1|g" app-api/rollout.yaml
+          sed -i "s|image: .*|image: ghcr.io/${{ env.OWNER_LC }}/w10-api:v1|g" app-api/rollout.yaml
 
       - name: Commit Changes
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
+
           git add app-api/rollout.yaml
           git commit -m "update image to v1" || true
           git push
