@@ -54,3 +54,8 @@ spec:
           httpGet:
             path: /healthz
             port: 8080
+
+
+#sau khi có analysis template rồi thì mới gọi vào rollout
+
+#nếu ko thêm analysis template vào rollout thì nó sẽ chạy rollout bình thường, ko có phân tích gì cả            
