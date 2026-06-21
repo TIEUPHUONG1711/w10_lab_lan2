@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+# File này để Argo Rollouts hỏi Prometheus API version mới có ổn không?
+kind: AnalysisTemplate
+metadata:
+  name: api-success-rate
+  namespace: demo
+spec:
+  metrics:
+  - name: success-rate
+    interval: 30s
+    count: 3
+    successCondition: result[0] >= 0.90
+    failureLimit: 1
+    provider:
+      prometheus:
+        address: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+        query: |
+          sum(rate(flask_http_request_total{status!~"5.."}[1m]))
+          /
+          sum(rate(flask_http_request_total[1m]))
+
+
+# Argo Rollouts
+# ↓
+# Chạy canary
+# ↓
+# Gọi AnalysisTemplate
+# ↓
+# Query Prometheus
+# ↓
+# Tính success rate
+# ↓
+# >= 90% → rollout tiếp
+# < 90%  → rollback          
