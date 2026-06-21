@@ -1,0 +1,33 @@
+name: Validate Manifests
+# Workflow này kiểm tra YAML/Kubernetes manifest trước khi merge hoặc push.
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup kubeconform
+      run: |
+        curl -L -o kubeconform.tar.gz https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64.tar.gz
+        tar xf kubeconform.tar.gz
+        sudo mv kubeconform /usr/local/bin/
+
+    - name: Validate Kubernetes YAML
+      run: |
+        kubeconform \
+          -summary \
+          -ignore-missing-schemas \
+          app-common \
+          app-api \
+          app-analysis \
+          app-alert
