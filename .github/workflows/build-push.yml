@@ -13,7 +13,7 @@ jobs:
 build:
 runs-on: ubuntu-latest
 
-```
+
 steps:
 - name: Checkout
   uses: actions/checkout@v4
@@ -48,4 +48,4 @@ steps:
     git add app-api/rollout.yaml
     git commit -m "update image ${{ github.sha }}" || true
     git push
-```
+
