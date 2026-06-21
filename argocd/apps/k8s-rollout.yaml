@@ -1,0 +1,33 @@
+# Child app này dùng ArgoCD để cài Argo Rollouts Controller bằng Helm.
+# 2. Ý nghĩa
+# Kubernetes mặc định chỉ hiểu:Deployment, Service, Pod, Namespace, Secret, ConfigMap, Ingress, ...
+# Kubernetes chưa tự hiểu: Rollout, AnalysisTemplate, AnalysisRun
+# =>  Muốn Kubernetes hiểu các kind này thì phải cài Argo Rollouts CRD + Controller.
+# 3. File này cài :Argo Rollouts Controller, CRD Rollout, CRD AnalysisTemplate, CRD AnalysisRun
+# Sau khi cài xong, Kubernetes mới hiểu:kind: Rollout
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-rollouts
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+
+  source:
+    repoURL: https://argoproj.github.io/argo-helm
+    chart: argo-rollouts
+    targetRevision: 2.40.4
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argo-rollouts
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true
