@@ -1,4 +1,4 @@
-apiVersion: argoproj.io/v1alpha1
+﻿apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
   name: api
@@ -56,6 +56,6 @@ spec:
             port: 8080
 
 
-#sau khi có analysis template rồi thì mới gọi vào rollout
+#sau khi cÃ³ analysis template rá»“i thÃ¬ má»›i gá»i vÃ o rollout
 
-#nếu ko thêm analysis template vào rollout thì nó sẽ chạy rollout bình thường, ko có phân tích gì cả            
+#náº¿u ko thÃªm analysis template vÃ o rollout thÃ¬ nÃ³ sáº½ cháº¡y rollout bÃ¬nh thÆ°á»ng, ko cÃ³ phÃ¢n tÃ­ch gÃ¬ cáº£            
