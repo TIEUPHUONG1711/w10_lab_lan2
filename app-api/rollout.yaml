@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: ghcr.io/tieuphuong1711/w10-api:v1
+        image:  ghcr.io/tieuphuong1711/w10-lab-lan2-api:v1
         imagePullPolicy: IfNotPresent
 
         ports:
@@ -43,7 +43,7 @@ spec:
             port: 8080
 #sau khi có analysis template rồi thì mới gọi vào rollout
 #nếu ko thêm analysis template vào rollout thì nó sẽ chạy rollout bình thường, ko có phân tích gì cả
-  strategy:
+    strategy:
     canary:
       steps:
       - setWeight: 10

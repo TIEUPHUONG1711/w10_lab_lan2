@@ -31,18 +31,18 @@ jobs:
       - name: Build Image
         run: |
           docker build \
-            -t ghcr.io/${{ env.OWNER_LC }}/w10-api:${{ github.sha }} \
-            -t ghcr.io/${{ env.OWNER_LC }}/w10-api:v1 \
+            -t ghcr.io/${{ env.OWNER_LC }}/w10-lab-lan2-api:${{ github.sha }} \
+            -t ghcr.io/${{ env.OWNER_LC }}/w10-lab-lan2-api:v1 \
             ./src/api
 
       - name: Push Image
         run: |
-          docker push ghcr.io/${{ env.OWNER_LC }}/w10-api:${{ github.sha }}
-          docker push ghcr.io/${{ env.OWNER_LC }}/w10-api:v1
+          docker push ghcr.io/${{ env.OWNER_LC }}/w10-lab-lan2-api:${{ github.sha }}
+          docker push ghcr.io/${{ env.OWNER_LC }}/w10-lab-lan2-api:v1
 
       - name: Update Rollout Image
         run: |
-          sed -i "s|image: .*|image: ghcr.io/${{ env.OWNER_LC }}/w10-api:v1|g" app-api/rollout.yaml
+          sed -i "s|image: .*|image: ghcr.io/${{ env.OWNER_LC }}/w10-lab-lan2-api:v1|g" app-api/rollout.yaml
 
       - name: Commit Changes
         run: |
