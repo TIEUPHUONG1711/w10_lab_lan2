@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: ghcr.io/tieuphuong1711/w10-api:b3afb4f48515e278177488218f456815596497e1
+        image: ghcr.io/tieuphuong1711/w10-api:v1
         imagePullPolicy: IfNotPresent
 
         ports:
